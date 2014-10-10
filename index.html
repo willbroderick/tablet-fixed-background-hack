@@ -1,0 +1,71 @@
+<!doctype html>
+<html>
+	<head>
+		<style type="text/css">
+		.cont {
+			padding-bottom: 0;
+			background-image: url(bg_custom.jpg);
+			background-repeat: no-repeat;
+			background-size: cover;
+			background-position: center center;
+			background-attachment: fixed;
+
+			height: 5000px;
+		}
+		.cont div {
+			font-size: 100px;
+			color: white;
+			padding: 300px 50px 5000px;
+		}
+		</style>
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+		<script type="text/javascript">
+		{
+			var badAgent = ( navigator.userAgent.match(/(iPad|iPhone|iPod)/g) ? true : false );
+			if(badAgent || true) {
+				$(window).on('load scroll resize', function(){
+					$('.cont').each(function(){
+						var $el = $(this);
+						//Get dimensions of viewport
+						var windowW = Math.max(document.documentElement.clientWidth, window.innerWidth || 0)
+						var windowH = Math.max(document.documentElement.clientHeight, window.innerHeight || 0)
+
+						//Get dimensions of screen
+						var img = new Image();
+						img.src = $el.css('background-image').match(/url\(([^)]*)\)/)[1].replace(/'"/, '');
+						var imageW = img.width;
+						var imageH = img.height;
+						delete img;
+
+						//Calculate new size
+						var newW, newH;
+						if(imageW/imageH > windowW/windowH) {
+							newH = windowH;
+							newW = newH * imageW/imageH;
+						} else {
+							newW = windowW;
+							newH = newW * imageH/imageW;
+						}
+
+						//Calculate offset
+						var offsX = $(window).scrollLeft();
+						var offsY = $(window).scrollTop();
+
+						//Set vals
+						$el.css({
+							backgroundAttachment: 'initial',
+							backgroundSize: newW + 'px ' + newH + 'px',
+							backgroundPosition: offsX + 'px ' + offsY + 'px'
+						});
+					});
+				});
+			}
+		}
+		</script>
+	</head>
+	<body>
+		<div class="cont">
+			<div>Filler text 4 eva</div>
+		</div>
+	</body>
+</html>
